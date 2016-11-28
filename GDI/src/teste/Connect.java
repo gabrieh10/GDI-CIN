@@ -1,5 +1,6 @@
 package teste;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,10 +13,18 @@ public class Connect {
 		private static ResultSet rs;
 		private static String sql;
 		
-		public static void main(String[] args) throws SQLException {
-			conectarOracle("jdbc:oracle:thin:System/100696@localhost:1521:XE", "System", "100696");
-			queryMySQL("select * from Pessoa");
+	
+		
+		public static void main(String[] args) throws SQLException, IOException {
+			conectarOracle("jdbc:oracle:thin:System/100696@localhost:1521:XE", "system", "100696");
+		//	queryMySQL("select * from tb_funcionario");
 		//	queryMySQL("")
+	//		RepositorioCliente a = new RepositorioCliente(conn);
+		//	a.buscaCliente("Luiz Reis");
+	//		RepositorioFarmacia r = new RepositorioFarmacia(conn);
+		//	r.buscaFarmacia("Big Ben");
+			RepositorioIngrediente i = new RepositorioIngrediente(conn);
+			i.buscaIngrediente("Vitamina");	
 			
 			desconectarMySQL();
 			//	conn = (Connection) DriverManager.getConnection("jdbc:mysql://192.168.1.15:3306/control","root","tcc");
