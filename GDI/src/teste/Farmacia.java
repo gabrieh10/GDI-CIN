@@ -7,6 +7,14 @@ public class Farmacia {
 	private Endereco endereco;
 	private String[] funcionarios;
 	
+	public Farmacia(int id, String nome, String telefone, Endereco endereco, String[] funcionarios){
+		this.id = id;
+		this.nome = nome;
+		this.telefone = telefone;
+		this.endereco = endereco;
+		this.funcionarios = funcionarios;
+	}
+	
 	public String getNome() {
 		return nome;
 	}

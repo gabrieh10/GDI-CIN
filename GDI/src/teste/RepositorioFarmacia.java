@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Struct;
 import java.util.ArrayList;
 
 import oracle.sql.REF;
@@ -17,7 +18,7 @@ public class RepositorioFarmacia {
 			this.con = con;
 		}
 		
-		public void buscaFarmacia(String nome) throws SQLException{			
+		public Farmacia buscaNome(String nome) throws SQLException{			
 			String sql = "select * from tb_farmacia where nome = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, nome);
@@ -29,36 +30,86 @@ public class RepositorioFarmacia {
 				
 					Object array = (Object) rs.getObject("telefone");
 					String telefone = (String)((STRUCT)array).getAttributes()[0];
-					System.out.println(telefone);	
-					
-					
+									
 					Object objetoEndereco = (Object) rs.getObject("endereco");
-					
 					String cep = (String)((STRUCT)objetoEndereco).getAttributes()[0];
 					String numero = (String)((STRUCT)objetoEndereco).getAttributes()[1].toString();
 					String rua = (String)((STRUCT)objetoEndereco).getAttributes()[2];
 					Endereco endereco = new Endereco(cep, Integer.parseInt(numero), rua);
 					
-					
-			/*		Array func = rs.getArray("funcionarios");
-					Object[] objetoFunc = (Object[])func.getArray();
-					String[] testando = new String[objetoFunc.length];					
-					for (int i=0; i<objetoFunc.length; i++){
-						Object funcionariosSaida = (Object) objetoFunc[i];			    
-						String nomeSuper = (String)((STRUCT)funcionariosSaida).getAttributes()[1];
-						testando[i] = nomeSuper;
-					}
-				*/	
-					
-					
-		//		for(int i=0;i<testando.length;i++) System.out.println(testando[i]);
-			
-					
-					//return null;
-			//		return new Ingrediente(id, nomeIngrediente, Blob);
+					Array array2 = rs.getArray("funcionarios");
+					Object[] funcionarios = (Object[])array2.getArray();
+         		    String[] arrayFuncionarios = new String[funcionarios.length];
+                    
+         		    for (int i = 0; i < funcionarios.length; i++) {
+                    	STRUCT address = (STRUCT) ((REF) funcionarios[i]).getSTRUCT();		
+                        Object[] attrib = address.getAttributes();
+                        arrayFuncionarios[i] = (String)attrib[1];
+                    } 
+                    
+                      return new Farmacia(id, nomeFarmacia, telefone, endereco, arrayFuncionarios);
+                                   
 				}else{
-				//	return null;				
+					return null;				
 				}
-				
 		}
+		
+		public Farmacia buscaID(int identificador) throws SQLException{			
+			String sql = "select * from tb_farmacia where id = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, identificador);
+			ResultSet rs = ps.executeQuery();
+			
+				if(rs.next()){
+					int id = rs.getInt("id");
+					String nomeFarmacia = rs.getString("nome");		
+				
+					Object array = (Object) rs.getObject("telefone");
+					String telefone = (String)((STRUCT)array).getAttributes()[0];
+									
+					Object objetoEndereco = (Object) rs.getObject("endereco");
+					String cep = (String)((STRUCT)objetoEndereco).getAttributes()[0];
+					String numero = (String)((STRUCT)objetoEndereco).getAttributes()[1].toString();
+					String rua = (String)((STRUCT)objetoEndereco).getAttributes()[2];
+					Endereco endereco = new Endereco(cep, Integer.parseInt(numero), rua);
+					
+					Array array2 = rs.getArray("funcionarios");
+					Object[] funcionarios = (Object[])array2.getArray();
+         		    String[] arrayFuncionarios = new String[funcionarios.length];
+                    
+         		    for (int i = 0; i < funcionarios.length; i++) {
+                    	STRUCT address = (STRUCT) ((REF) funcionarios[i]).getSTRUCT();		
+                        Object[] attrib = address.getAttributes();
+                        arrayFuncionarios[i] = (String)attrib[1];
+                    } 
+                    
+                      return new Farmacia(id, nomeFarmacia, telefone, endereco, arrayFuncionarios);
+                                   
+				}else{
+					return null;				
+				}
+		}
+
+		
+//falta completar
+		public void inserirFarmacia(int id, String nome, String telefone, Endereco endereco, String[] funcionarios){
+			try{
+				String sql = "insert into tb_farmacia values(tp_farmacia(?, ?, ?, tp_endereco(?,?,?), tp_nt_funcionarios()";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setInt(1, id);
+				ps.setString(2, nome);
+				ps.setString(3, telefone);
+				ps.setString(4, endereco.getCep());
+				ps.setInt(5, endereco.getNumero());
+				ps.setString(6, endereco.getRua());
+								
+				ps.executeQuery();
+			}catch(Exception e){
+				e.printStackTrace();
+			
+		}
+			
+		}
+		
+
 }
