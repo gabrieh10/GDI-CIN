@@ -5,7 +5,7 @@ public class Farmacia {
 	private int id;
 	private String telefone;
 	private Endereco endereco;
-	private Funcionario[] funcionarios;
+	private String[] funcionarios;
 	
 	public String getNome() {
 		return nome;
@@ -31,10 +31,10 @@ public class Farmacia {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	public Funcionario[] getFuncionarios() {
+	public String[] getFuncionarios() {
 		return funcionarios;
 	}
-	public void setFuncionarios(Funcionario[] funcionarios) {
+	public void setFuncionarios(String[] funcionarios) {
 		this.funcionarios = funcionarios;
 	}
 	

@@ -21,10 +21,14 @@ public class Connect {
 		//	queryMySQL("")
 	//		RepositorioCliente a = new RepositorioCliente(conn);
 		//	a.buscaCliente("Luiz Reis");
-	//		RepositorioFarmacia r = new RepositorioFarmacia(conn);
-		//	r.buscaFarmacia("Big Ben");
-			RepositorioIngrediente i = new RepositorioIngrediente(conn);
-			i.buscaIngrediente("Vitamina");	
+		//	RepositorioFarmacia r = new RepositorioFarmacia(conn);
+			//r.buscaFarmacia("Big Ben");
+			RepositorioFuncionario b = new RepositorioFuncionario(conn);
+			Funcionario x = b.buscaFuncionario("Jose Freire");
+			System.out.println(x.getNome());
+			System.out.println(x.getSupervisor());
+	//		RepositorioIngrediente i = new RepositorioIngrediente(conn);
+		//	i.buscaIngrediente("Vitamina");	
 			
 			desconectarMySQL();
 			//	conn = (Connection) DriverManager.getConnection("jdbc:mysql://192.168.1.15:3306/control","root","tcc");

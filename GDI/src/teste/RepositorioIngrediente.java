@@ -17,7 +17,7 @@ public class RepositorioIngrediente {
 			this.con = con;
 		}
 		
-		public void buscaIngrediente(String nome) throws SQLException, IOException{			
+		public Ingrediente buscaIngrediente(String nome) throws SQLException, IOException{			
 			String sql = "select * from tb_ingrediente where nome = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, nome);
@@ -43,9 +43,9 @@ public class RepositorioIngrediente {
 					System.out.println(id);
 					System.out.println(nomeIngrediente);
 										
-		//			return new Ingrediente(id, nomeIngrediente, i);
+					return new Ingrediente(id, nomeIngrediente, bytes);
 				}else{
-			//		return null;				
+					return null;				
 				}
 				
 		}

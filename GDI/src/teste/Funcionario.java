@@ -3,10 +3,10 @@ package teste;
 public class Funcionario extends Pessoa {
 	private String cargo;
 	private double salario;
-	private Funcionario supervisor;
+	private String supervisor;
 	
 	public Funcionario(String cpf, String nome, String sexo, String data_nascimento, String[] tp_telefones, String cargo,
-			double salario, Funcionario supervisor) {
+			double salario, String supervisor) {
 		
 			super(cpf, nome, sexo, data_nascimento, tp_telefones);
 			this.cargo = cargo;
@@ -30,11 +30,11 @@ public class Funcionario extends Pessoa {
 		this.salario = salario;
 	}
 
-	public Funcionario getSupervisor() {
+	public String getSupervisor() {
 		return supervisor;
 	}
 
-	public void setSupervisor(Funcionario supervisor) {
+	public void setSupervisor(String supervisor) {
 		this.supervisor = supervisor;
 	}
 

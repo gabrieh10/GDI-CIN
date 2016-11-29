@@ -1,10 +1,14 @@
 package teste;
 
+import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
+import oracle.sql.*;
+
 import oracle.jdbc.*;
 
 public class RepositorioCliente {
@@ -14,7 +18,7 @@ public class RepositorioCliente {
 			this.con = con;
 		}
 		
-		public void buscaCliente(String nome) throws SQLException{			
+		public Cliente buscaCliente(String nome) throws SQLException{			
 			String sql = "select * from tb_cliente where nome = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, nome);
@@ -25,42 +29,35 @@ public class RepositorioCliente {
 				String nomeCliente = rs.getString("Nome");
 				String sexo = rs.getString("sexo");
       			String dataNascimento = rs.getString("data_nascimento");
-				Array telefones = rs.getArray("telefone");
 				
-				Object[] arrayTelefones = new String[5]; 
-				arrayTelefones = (Object[])telefones.getArray();
-				String[] stringTelefones = convert(arrayTelefones); 
+      			Array array = rs.getArray("telefone");
+				Object[] objeto = (Object[])array.getArray();
 				
+				String[] telefones = new String[5];
+				
+				for (int i=0; i<objeto.length; i++){
+					Object telefone_Saida = (Object) objeto[i];
+					String telefone = (String) ((STRUCT) telefone_Saida).getAttributes()[0];			    
+				    telefones[i] = telefone;
+				}
+      			for(int i=0;i<objeto.length;i++) System.out.println(telefones[i]);
+      			
+      			
 				double peso = rs.getDouble("peso");
-	//			String endereco = (String)rs.getObject("endereco");
 				
-				System.out.println(cpf);
-				System.out.println(nomeCliente);
-				System.out.println(sexo);
-				System.out.println(dataNascimento);
-		//		for (int i=0;i<arrayTelefones.length.;i++) arrayTelefones[i]=(String)telefones[i];
+				Object objetoEndereco = (Object) rs.getObject("endereco");
 				
-				for(int i=0; i<stringTelefones.length;i++){
-					System.out.println(arrayTelefones[i].toString());
+				String cep = (String)((STRUCT)objetoEndereco).getAttributes()[0];
+				String numero = (String)((STRUCT)objetoEndereco).getAttributes()[1].toString();
+				String rua = (String)((STRUCT)objetoEndereco).getAttributes()[2];
+				Endereco endereco = new Endereco(cep, Integer.parseInt(numero), rua);
+					
+				return new Cliente(cpf, nomeCliente, sexo, dataNascimento, telefones, peso, endereco);
+							
+				
+				}else{		
+					return null;
 				}
-				System.out.println(peso);
-	//			System.out.println(endereco);
-				
-				}else{
-					System.out.println("vazio");
-				}
-				
-//				return new Cliente(cpf, nomeCliente, sexo, dataNascimento, arrayTelefones, peso, endereco);		
 		}
-		
-		public String[] convert(Object[] source) {
-            String[] strings = new String[source.length];
-            for(int i = 0; i < source.length ; i++) {
-                strings[i] = source[i].toString();
-            }
-            return strings;
-        }
-
-
 }
 
