@@ -22,19 +22,17 @@ public class Cliente extends Pessoa {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	/*
-	public void consultaCliente(){
-		 
-	ps = getConnection().prepareStatement("insert into contatos (nome,email,endereco) values (?,?,?)");
-		 preenche os valores
-		stmt.setString(1, “xxx”);
-	    stmt.setString(2, “contato@xxx.com.br”);
-		stmt.setString(3, “R. xxxx 12”);
-		
-			PreparedStatement pstmt = conn.prepareStatement("Select * from tb_cliente
-                  WHERE cpf = ?;");
-           pstmt.setString(1, "110592");
-		*/
+	
+	public String toString(){
+		return "Nome: "+this.getNome()+"\n"+
+				"Cpf: "	+this.getCpf()+"\n"+
+				"Sexo: " +this.getSexo()+"\n"+
+				"Data Nascimento: "+this.getData_nascimento()+"\n"+
+				//"Telefone: "+this.getTp_telefones()"\n"+
+				"CEP: "+this.endereco.getCep()+"\n"+
+				"Número: "+this.endereco.getNumero()+"\n"+
+				"Rua: "+this.endereco.getRua();
+	}
 	
 	
 }
