@@ -1,5 +1,7 @@
 package teste;
 
+import java.util.Arrays;
+
 public class Ingrediente {
 	private int id;
 	private String nome;
@@ -34,4 +36,10 @@ public class Ingrediente {
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
 	}
+
+	@Override
+	public String toString() {
+		return "Ingrediente Id: " + id + "\n"+"Nome: " + nome ;
+	}
+	
 }

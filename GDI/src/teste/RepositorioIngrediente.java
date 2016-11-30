@@ -117,7 +117,7 @@ public class RepositorioIngrediente {
 			
 			
 			}
-		public void removerIngrediente(int id){
+		public void removerIngrediente(int id)throws SQLException{
 			try{
 				String sql = "delete from tb_ingrediente i where i.id = ?";
 				PreparedStatement ps = con.prepareStatement(sql);

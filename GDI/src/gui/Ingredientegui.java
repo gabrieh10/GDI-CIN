@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
 
 public class Ingredientegui extends JFrame {
 
@@ -27,7 +28,7 @@ public class Ingredientegui extends JFrame {
 	private JTextField textFieldIdIng;
 	private JTextField textFieldCaminhoImg;
 	private JLabel lblImagem;
-
+	private JTextPane textPane;
 	/**
 	 * Launch the application.
 	 */
@@ -60,11 +61,11 @@ public class Ingredientegui extends JFrame {
 		contentPane.add(lblPreenchaOsDados);
 		
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(67, 158, 46, 14);
+		lblNome.setBounds(52, 126, 46, 14);
 		contentPane.add(lblNome);
 		
 		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(67, 194, 46, 14);
+		lblId.setBounds(62, 154, 46, 14);
 		contentPane.add(lblId);
 		
 		JLabel lblImg = new JLabel("Img:");
@@ -99,9 +100,18 @@ public class Ingredientegui extends JFrame {
 				RepositorioIngrediente rep=new RepositorioIngrediente(Connect.getConnection());
 				try {
 					Ingrediente ing=rep.buscaID(id);
-					lblImagem.setIcon(new ImageIcon(ing.getFoto()));
+					if(ing == null){
+						textPane.setText("Ingrediente não encontrado!");
+					}else{
+						lblImagem.setIcon(new ImageIcon(ing.getFoto()));
+						textPane.setText(ing.toString());
+						
+					}
+					
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -114,13 +124,13 @@ public class Ingredientegui extends JFrame {
 		contentPane.add(btnPesquisar);
 		
 		textFieldNomeIng = new JTextField();
-		textFieldNomeIng.setBounds(101, 155, 168, 20);
+		textFieldNomeIng.setBounds(101, 123, 168, 20);
 		contentPane.add(textFieldNomeIng);
 		textFieldNomeIng.setColumns(10);
 		
 		textFieldIdIng = new JTextField();
 		textFieldIdIng.setColumns(10);
-		textFieldIdIng.setBounds(101, 191, 168, 20);
+		textFieldIdIng.setBounds(101, 151, 168, 20);
 		contentPane.add(textFieldIdIng);
 		
 		lblImagem = new JLabel("");
@@ -129,10 +139,49 @@ public class Ingredientegui extends JFrame {
 		contentPane.add(lblImagem);
 		
 		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String idText=textFieldIdIng.getText();
+				int id=Integer.parseInt(idText);
+				String nome=textFieldNomeIng.getText();
+				String caminho=textFieldCaminhoImg.getText();
+						
+				Connect.init();
+				RepositorioIngrediente rep=new RepositorioIngrediente(Connect.getConnection());
+				try {
+					rep.atualizarIngrediente(id, nome, caminho);
+					Ingrediente ing=rep.buscaID(id);
+					lblImagem.setIcon(new ImageIcon(ing.getFoto()));
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnAtualizar.setBounds(319, 339, 89, 23);
 		contentPane.add(btnAtualizar);
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idText=textFieldIdIng.getText();
+				int id=Integer.parseInt(idText);	
+				Connect.init();
+				RepositorioIngrediente rep=new RepositorioIngrediente(Connect.getConnection());
+				try {
+					rep.removerIngrediente(id);
+					textPane.setText("Ingrediente removido com sucesso!");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btnRemover.setBounds(439, 339, 89, 23);
 		contentPane.add(btnRemover);
 		
@@ -140,6 +189,9 @@ public class Ingredientegui extends JFrame {
 		textFieldCaminhoImg.setBounds(345, 123, 203, 20);
 		contentPane.add(textFieldCaminhoImg);
 		textFieldCaminhoImg.setColumns(10);
+		
+		textPane = new JTextPane();
+		textPane.setBounds(101, 195, 168, 87);
+		contentPane.add(textPane);
 	}
-
 }
