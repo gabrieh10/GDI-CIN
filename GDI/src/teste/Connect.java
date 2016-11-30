@@ -1,5 +1,6 @@
 package teste;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,11 +21,12 @@ public class Connect {
 		//	queryMySQL("select * from tb_funcionario");
 		//	queryMySQL("")
 		//	
-			String[] teste = {"122331312", "121321312"};
+			String[] teste = {"122331310", "121321312"};
 	//		System.out.println(teste.length);
-			Endereco endereco = new Endereco("53070130", 126, "Rua de Tal2");
+			Endereco endereco = new Endereco("53070140", 126, "Rua de Tal2");
 	//		RepositorioCliente a = new RepositorioCliente(conn);
-		//	a.inserirCliente("99999999990", "Cliente de Tal", "m", "10/06/1996", teste, 82, endereco);
+	//		a.inserirCliente("99999999900", "Cliente do Povao", "m", "16/07/1996", teste, 82, endereco);
+	//		a.removerCliente("99999999900");
 //			System.out.println(a.buscaCliente("Luiz Reis").getCpf());
 		//	System.out.println(d.getPeso());
 			//	System.out.println(a.qntTelefones(5));
@@ -42,9 +44,16 @@ public class Connect {
 	//		Funcionario x = b.buscaFuncionario("Jose Freire");
 	//		System.out.println(x.getNome());
 		//	System.out.println(x.getSupervisor());
-	//		RepositorioIngrediente i = new RepositorioIngrediente(conn);
-		//	i.buscaIngrediente("Vitamina");	
-		//	i.inserirIngrediente(18, "RemedioTeste");
+	//		byte[] testeArray = k.getFoto();
+			
+			RepositorioFarmacia f = new RepositorioFarmacia(conn);
+		//	f.inserirFarmacia(7, "Farmacia Nova", "343112786", endereco);
+			f.inserirFuncionarios("99999999999", 8);
+	//		i.inserirIngrediente(19, "RemedioFoto", "E:\\Pictures\\foto.jpg");
+	//		i.removerIngrediente(19);
+	//		RepositorioLaboratorio l = new RepositorioLaboratorio(conn);
+		//	l.atualizarLaboratorio(12, "Testando tudo");
+			
 			
 			desconectarMySQL();
 			//	conn = (Connection) DriverManager.getConnection("jdbc:mysql://192.168.1.15:3306/control","root","tcc");

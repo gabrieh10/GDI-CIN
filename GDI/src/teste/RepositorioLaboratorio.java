@@ -54,7 +54,31 @@ public class RepositorioLaboratorio {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+				
+	}
+		public void atualizarLaboratorio(int id, String descricao) throws SQLException{
+			try{
+				String sql = "update tb_laboratorio set descricao = ? where id = ?";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setInt(2, id);
+				ps.setString(1, descricao);
+				ps.executeQuery();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			
+			}
 		
-		
+
+		public void removerLaboratorio(int id){
+			try{
+				String sql = "delete from tb_laboratorio l where l.id = ?";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setInt(1, id);
+				ps.executeQuery();
+			}catch(Exception E){
+				E.printStackTrace();
+			}
 		}
 }

@@ -167,6 +167,17 @@ public class RepositorioCliente {
 		
 	}	
 
+		public void removerCliente(String cpf){
+			try{
+				String sql = "delete from tb_cliente c where c.cpf = ?";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setString(1, cpf);
+				ps.executeQuery();
+			}catch(Exception E){
+				E.printStackTrace();
+			}
+		}
+		
 		public String qntTelefones(int qtdTelefones) {		
 			String resultado = "tp_telefones(null)";	
 			if (qtdTelefones != 0) {

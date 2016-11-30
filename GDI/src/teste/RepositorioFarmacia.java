@@ -92,9 +92,9 @@ public class RepositorioFarmacia {
 
 		
 //falta completar
-		public void inserirFarmacia(int id, String nome, String telefone, Endereco endereco, String[] funcionarios){
+		public void inserirFarmacia(int id, String nome, String telefone, Endereco endereco){
 			try{
-				String sql = "insert into tb_farmacia values(tp_farmacia(?, ?, ?, tp_endereco(?,?,?), tp_nt_funcionarios()";
+				String sql = "insert into tb_farmacia values(tp_farmacia(?, ?, tp_telefone(?), tp_endereco(?,?,?),tp_nt_funcionarios()))";
 				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setInt(1, id);
 				ps.setString(2, nome);
@@ -109,7 +109,49 @@ public class RepositorioFarmacia {
 			
 		}
 			
+	}
+	
+		public void removerFarmacia(int id){
+			try{
+				String sql = "delete from tb_farmacia f where f.id = ?";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setInt(1, id);
+				ps.executeQuery();
+			}catch(Exception E){
+				E.printStackTrace();
+			}
 		}
 		
-
+		public void inserirFuncionarios(String cpfFuncionario, int idFarmacia) throws SQLException{
+			try{
+			String sql = "insert into table(select fa.funcionarios from tb_farmacia fa where id = ?) values (select ref(f) FROM tb_funcionario f where f.cpf = ?)";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, idFarmacia);
+			ps.setString(2, cpfFuncionario);
+			ps.executeQuery();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+/*		public String qntFuncionarios(int qntFuncionarios) {		
+			String resultado = "tp_nt_funcionarios(null)";	
+			if (qntFuncionarios != 0) {
+				resultado = "tp_telefones(";
+				String fone = "tp_telefone(?)";
+				
+				for(int i = 0; i < qtdTelefones; i++){
+					resultado += fone;
+					
+					if(i < qtdTelefones-1) {
+						resultado += ", ";
+					}
+				}
+				
+				resultado += ")";
+			}
+					
+			return resultado;
+		}
+	*/	
+		
 }

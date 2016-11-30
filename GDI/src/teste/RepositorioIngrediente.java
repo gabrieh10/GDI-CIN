@@ -2,6 +2,9 @@ package teste;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -69,25 +72,71 @@ public class RepositorioIngrediente {
 						in = new ByteArrayInputStream(bytes);
 						img = ImageIO.read(in);
 					}
-															
-					return new Ingrediente(id, nomeIngrediente, bytes);
+					Ingrediente i = new Ingrediente(id, nomeIngrediente, bytes);										
+					salvarFoto(i);
+					return i;
 				}else{
 					return null;				
 				}		
 		}
 
 		
-		public void inserirIngrediente(int id, String nome){
+		public void inserirIngrediente(int id, String nome, String caminhoFoto){
 			try{
-				String sql = "insert into tb_ingrediente values(tp_ingrediente(?, ?, EMPTY_BLOB()))";
+				BufferedImage imagem = ImageIO.read(new File(caminhoFoto));   
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();   // crio um OS de array de bytes
+				ImageIO.write(imagem, "jpg", baos);   // Uso o write pra escrever os dados da imagem no OS do array de bytes
+				 						
+				String sql = "insert into tb_ingrediente values(tp_ingrediente(?, ?, ?))";
 				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setInt(1, id);
 				ps.setString(2, nome);
-		//		ps.setBlob(3, );
+			    ps.setBytes(3, baos.toByteArray());
+				
 				ps.executeQuery();
 			}catch(Exception e){
 				e.printStackTrace();
 			
 		}
 	}
+		public void atualizarIngrediente(int id, String nome, String caminhoFoto) throws SQLException{
+			try{
+				BufferedImage imagem = ImageIO.read(new File(caminhoFoto));   
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();   // crio um OS de array de bytes
+				ImageIO.write(imagem, "jpg", baos);   // Uso o write pra escrever os dados da imagem no OS do array de bytes			
+				
+				String sql = "update tb_ingrediente set nome = ?, foto = ? where id = ?";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setInt(3, id);
+				ps.setString(1, nome);
+			    ps.setBytes(2, baos.toByteArray());
+			    ps.executeQuery();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			
+			}
+		public void removerIngrediente(int id){
+			try{
+				String sql = "delete from tb_ingrediente i where i.id = ?";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setInt(1, id);
+				ps.executeQuery();
+			}catch(Exception E){
+				E.printStackTrace();
+			}
+		}
+		public void salvarFoto(Ingrediente k){
+			try{			     
+			 FileOutputStream fos = new FileOutputStream("E:/Pictures/"+k.getNome()+".jpg");
+		     fos.write(k.getFoto());
+		     fos.flush();
+		     fos.close(); 
+		 }
+		 catch(Exception e){
+		    e.printStackTrace();
+		}
+	}	
+		
 }
