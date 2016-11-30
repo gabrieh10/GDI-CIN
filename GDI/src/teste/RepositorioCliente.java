@@ -59,6 +59,7 @@ public class RepositorioCliente {
 		
 		public Cliente buscaNome(String nome) throws SQLException{			
 			String sql = "select * from tb_cliente where nome = ?";
+			
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, nome);
 			ResultSet rs = ps.executeQuery();

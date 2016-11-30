@@ -124,7 +124,7 @@ public class RepositorioFarmacia {
 		
 		public void inserirFuncionarios(String cpfFuncionario, int idFarmacia) throws SQLException{
 			try{
-			String sql = "insert into table(select fa.funcionarios from tb_farmacia fa where id = ?) values (select ref(f) FROM tb_funcionario f where f.cpf = ?)";
+			String sql = "insert into table(select fa.funcionarios from tb_farmacia fa where id = ?) values ((select ref(f) FROM tb_funcionario f where f.cpf = ?))";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, idFarmacia);
 			ps.setString(2, cpfFuncionario);
