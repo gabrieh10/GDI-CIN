@@ -1,31 +1,38 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import teste.Cliente;
+import teste.Connect;
+import teste.RepositorioCliente;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 public class Clientegui extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textFieldNome;
-	private JTextField textFieldCpf;
-	private JLabel lblSexo;
-	private JTextField textFieldSexo;
-	private JLabel lblTelefone;
-	private JTextField textFieldTelefone;
-	private JLabel lblData;
-	private JTextField textFieldData;
-	private JLabel lblEndereo;
-	private JTextField textFieldEnderco;
-	private JButton btnInserir;
-	private JLabel lblPreechaOsDados;
-	private JButton btnPesquisar;
-
+	private JTextField textFieldNomeCli;
+	private JTextField textFieldNomeBus;
+	private JTextField textFieldCpfCli;
+	private JTextField textFieldCpfBusca;
+	private JTextField textFieldSexoCli;
+	private JTextField textFieldDataNascCli;
+	private JTextField textFieldPesoCli;
+	private JTextField textFieldCepCli;
+	private JTextField textFieldNumCli;
+	private JTextField textFieldRuaCli;
+	private JTextPane textPaneResul;
 	/**
 	 * Launch the application.
 	 */
@@ -47,86 +54,141 @@ public class Clientegui extends JFrame {
 	 */
 	public Clientegui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 574, 464);
+		setBounds(100, 100, 555, 466);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNomeDaFarmcia = new JLabel("Nome:");
-		lblNomeDaFarmcia.setBounds(33, 71, 36, 14);
-		contentPane.add(lblNomeDaFarmcia);
+		JLabel lblNewLabel = new JLabel("Preencha os dados:");
+		lblNewLabel.setBounds(10, 50, 128, 14);
+		contentPane.add(lblNewLabel);
 		
-		textFieldNome = new JTextField();
-		textFieldNome.setBounds(89, 71, 213, 20);
-		contentPane.add(textFieldNome);
-		textFieldNome.setColumns(10);
+		JLabel lblPesquisePor = new JLabel("Pesquise por:");
+		lblPesquisePor.setBounds(268, 50, 128, 14);
+		contentPane.add(lblPesquisePor);
+		
+		JLabel lblNewLabel_1 = new JLabel("Nome:");
+		lblNewLabel_1.setBounds(10, 102, 46, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		textFieldNomeCli = new JTextField();
+		textFieldNomeCli.setBounds(50, 99, 208, 20);
+		contentPane.add(textFieldNomeCli);
+		textFieldNomeCli.setColumns(10);
+		
+		JLabel label = new JLabel("Nome:");
+		label.setBounds(268, 99, 46, 14);
+		contentPane.add(label);
+		
+		textFieldNomeBus = new JTextField();
+		textFieldNomeBus.setColumns(10);
+		textFieldNomeBus.setBounds(308, 96, 208, 20);
+		contentPane.add(textFieldNomeBus);
 		
 		JLabel lblCpf = new JLabel("CPF:");
-		lblCpf.setBounds(33, 102, 36, 14);
+		lblCpf.setBounds(10, 133, 46, 14);
 		contentPane.add(lblCpf);
 		
-		textFieldCpf = new JTextField();
-		textFieldCpf.setColumns(10);
-		textFieldCpf.setBounds(89, 102, 213, 20);
-		contentPane.add(textFieldCpf);
+		textFieldCpfCli = new JTextField();
+		textFieldCpfCli.setColumns(10);
+		textFieldCpfCli.setBounds(50, 130, 208, 20);
+		contentPane.add(textFieldCpfCli);
 		
-		JLabel lblPeso = new JLabel("Peso");
-		lblPeso.setBounds(33, 133, 36, 14);
-		contentPane.add(lblPeso);
+		JLabel lblCpf_1 = new JLabel("Cpf:");
+		lblCpf_1.setBounds(268, 127, 46, 14);
+		contentPane.add(lblCpf_1);
 		
-		JTextField textFieldPeso = new JTextField();
-		textFieldPeso.setColumns(10);
-		textFieldPeso.setBounds(89, 133, 213, 20);
-		contentPane.add(textFieldPeso);
+		textFieldCpfBusca = new JTextField();
+		textFieldCpfBusca.setColumns(10);
+		textFieldCpfBusca.setBounds(308, 124, 208, 20);
+		contentPane.add(textFieldCpfBusca);
 		
-		lblSexo = new JLabel("Sexo:");
-		lblSexo.setBounds(33, 170, 36, 14);
+		JLabel lblSexo = new JLabel("Sexo:");
+		lblSexo.setBounds(10, 161, 46, 14);
 		contentPane.add(lblSexo);
 		
-		textFieldSexo = new JTextField();
-		textFieldSexo.setColumns(10);
-		textFieldSexo.setBounds(89, 170, 213, 20);
-		contentPane.add(textFieldSexo);
+		textFieldSexoCli = new JTextField();
+		textFieldSexoCli.setColumns(10);
+		textFieldSexoCli.setBounds(50, 158, 208, 20);
+		contentPane.add(textFieldSexoCli);
 		
-		lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setBounds(33, 211, 46, 14);
-		contentPane.add(lblTelefone);
+		JLabel lblDataNas = new JLabel("Data Nas.:");
+		lblDataNas.setBounds(10, 189, 46, 14);
+		contentPane.add(lblDataNas);
 		
-		textFieldTelefone = new JTextField();
-		textFieldTelefone.setColumns(10);
-		textFieldTelefone.setBounds(89, 208, 213, 20);
-		contentPane.add(textFieldTelefone);
+		textFieldDataNascCli = new JTextField();
+		textFieldDataNascCli.setColumns(10);
+		textFieldDataNascCli.setBounds(50, 186, 208, 20);
+		contentPane.add(textFieldDataNascCli);
 		
-		lblData = new JLabel("Data Nasc:");
-		lblData.setBounds(33, 239, 53, 14);
-		contentPane.add(lblData);
+		JLabel lblPeso = new JLabel("Peso:");
+		lblPeso.setBounds(10, 217, 46, 14);
+		contentPane.add(lblPeso);
 		
-		textFieldData = new JTextField();
-		textFieldData.setColumns(10);
-		textFieldData.setBounds(89, 236, 213, 20);
-		contentPane.add(textFieldData);
+		textFieldPesoCli = new JTextField();
+		textFieldPesoCli.setColumns(10);
+		textFieldPesoCli.setBounds(50, 214, 208, 20);
+		contentPane.add(textFieldPesoCli);
 		
-		lblEndereo = new JLabel("Endere\u00E7o:");
-		lblEndereo.setBounds(33, 277, 53, 14);
-		contentPane.add(lblEndereo);
+		JLabel lblCep = new JLabel("CEP:");
+		lblCep.setBounds(10, 248, 46, 14);
+		contentPane.add(lblCep);
 		
-		textFieldEnderco = new JTextField();
-		textFieldEnderco.setColumns(10);
-		textFieldEnderco.setBounds(89, 274, 213, 20);
-		contentPane.add(textFieldEnderco);
+		textFieldCepCli = new JTextField();
+		textFieldCepCli.setColumns(10);
+		textFieldCepCli.setBounds(50, 245, 208, 20);
+		contentPane.add(textFieldCepCli);
 		
-		btnInserir = new JButton("Inserir");
-		btnInserir.setBounds(173, 334, 89, 23);
-		contentPane.add(btnInserir);
+		JLabel lblNmero = new JLabel("N\u00FAmero:");
+		lblNmero.setBounds(10, 278, 46, 14);
+		contentPane.add(lblNmero);
 		
-		lblPreechaOsDados = new JLabel("Preecha os dados:");
-		lblPreechaOsDados.setBounds(89, 24, 127, 14);
-		contentPane.add(lblPreechaOsDados);
+		textFieldNumCli = new JTextField();
+		textFieldNumCli.setColumns(10);
+		textFieldNumCli.setBounds(50, 275, 208, 20);
+		contentPane.add(textFieldNumCli);
 		
-		btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(304, 334, 89, 23);
+		JLabel lblRua = new JLabel("Rua:");
+		lblRua.setBounds(10, 306, 46, 14);
+		contentPane.add(lblRua);
+		
+		textFieldRuaCli = new JTextField();
+		textFieldRuaCli.setColumns(10);
+		textFieldRuaCli.setBounds(50, 303, 208, 20);
+		contentPane.add(textFieldRuaCli);
+		
+		JButton btnNewButton = new JButton("Inserir");
+		btnNewButton.setBounds(169, 369, 89, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nome=textFieldNomeBus.getText().toString();
+				//String cpf=textFieldNomeBus.getText().toString();
+				Connect.init();	
+				RepositorioCliente rep=new RepositorioCliente(Connect.getConnection());
+				
+				try {
+					Cliente aux=rep.buscaNome(nome);
+					if(aux == null) textPaneResul.setText("Não há respostas");
+					else textPaneResul.setText(aux.getNome());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("Merda");
+					e1.printStackTrace();
+				}
+				finally{ 
+					Connect.close();
+					}
+			}
+		});
+		btnPesquisar.setBounds(307, 369, 89, 23);
 		contentPane.add(btnPesquisar);
+		
+		textPaneResul = new JTextPane();
+		textPaneResul.setBounds(308, 161, 208, 188);
+		contentPane.add(textPaneResul);
 	}
-
 }
