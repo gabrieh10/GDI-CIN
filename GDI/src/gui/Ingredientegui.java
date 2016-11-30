@@ -6,16 +6,27 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import teste.Connect;
+import teste.Ingrediente;
+import teste.RepositorioIngrediente;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 public class Ingredientegui extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textFieldNome;
-	private JTextField textFieldId;
+	private JTextField textFieldNomeIng;
+	private JTextField textFieldIdIng;
+	private JTextField textFieldCaminhoImg;
+	private JLabel lblImagem;
 
 	/**
 	 * Launch the application.
@@ -61,31 +72,74 @@ public class Ingredientegui extends JFrame {
 		contentPane.add(lblImg);
 		
 		JButton btnInserir = new JButton("Inserir");
+		btnInserir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idText=textFieldIdIng.getText();
+				int id=Integer.parseInt(idText);
+				String nome=textFieldNomeIng.getText();
+				String caminho=textFieldCaminhoImg.getText();
+						
+				Connect.init();
+				RepositorioIngrediente rep=new RepositorioIngrediente(Connect.getConnection());
+				rep.inserirIngrediente(id, nome, caminho);
+				
+			}
+		});
 		btnInserir.setBounds(80, 339, 89, 23);
 		contentPane.add(btnInserir);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(221, 339, 89, 23);
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idText=textFieldIdIng.getText();
+				int id=Integer.parseInt(idText);
+				String nome=textFieldNomeIng.getText();
+				
+				Connect.init();
+				RepositorioIngrediente rep=new RepositorioIngrediente(Connect.getConnection());
+				try {
+					Ingrediente ing=rep.buscaID(id);
+					lblImagem.setIcon(new ImageIcon(ing.getFoto()));
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btnPesquisar.setBounds(196, 339, 89, 23);
 		contentPane.add(btnPesquisar);
 		
-		JButton btnProcurar = new JButton("Procurar");
-		btnProcurar.setBounds(375, 122, 89, 23);
-		contentPane.add(btnProcurar);
+		textFieldNomeIng = new JTextField();
+		textFieldNomeIng.setBounds(101, 155, 168, 20);
+		contentPane.add(textFieldNomeIng);
+		textFieldNomeIng.setColumns(10);
 		
-		textFieldNome = new JTextField();
-		textFieldNome.setBounds(101, 155, 168, 20);
-		contentPane.add(textFieldNome);
-		textFieldNome.setColumns(10);
+		textFieldIdIng = new JTextField();
+		textFieldIdIng.setColumns(10);
+		textFieldIdIng.setBounds(101, 191, 168, 20);
+		contentPane.add(textFieldIdIng);
 		
-		textFieldId = new JTextField();
-		textFieldId.setColumns(10);
-		textFieldId.setBounds(101, 191, 168, 20);
-		contentPane.add(textFieldId);
-		
-		JLabel lblImagem = new JLabel("");
+		lblImagem = new JLabel("");
 		lblImagem.setIcon(new ImageIcon("C:\\Users\\Ot\u00E1vio Vera Cruz\\Downloads\\Prancheta 1xxxhdpi.png"));
 		lblImagem.setBounds(375, 157, 121, 120);
 		contentPane.add(lblImagem);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setBounds(319, 339, 89, 23);
+		contentPane.add(btnAtualizar);
+		
+		JButton btnRemover = new JButton("Remover");
+		btnRemover.setBounds(439, 339, 89, 23);
+		contentPane.add(btnRemover);
+		
+		textFieldCaminhoImg = new JTextField();
+		textFieldCaminhoImg.setBounds(345, 123, 203, 20);
+		contentPane.add(textFieldCaminhoImg);
+		textFieldCaminhoImg.setColumns(10);
 	}
 
 }

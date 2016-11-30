@@ -24,14 +24,21 @@ public class Cliente extends Pessoa {
 	}
 	
 	public String toString(){
+		String telefones="";
+		for(int i =0;i<this.getTp_telefones().length-1;i++){
+			if(this.getTp_telefones()[i]!=null){
+			telefones+=this.getTp_telefones()[i]+"\n";
+			}
+			
+		}
 		return "Nome: "+this.getNome()+"\n"+
 				"Cpf: "	+this.getCpf()+"\n"+
 				"Sexo: " +this.getSexo()+"\n"+
 				"Data Nascimento: "+this.getData_nascimento()+"\n"+
-				//"Telefone: "+this.getTp_telefones()"\n"+
+				"Telefone: "+telefones+
 				"CEP: "+this.endereco.getCep()+"\n"+
 				"Número: "+this.endereco.getNumero()+"\n"+
-				"Rua: "+this.endereco.getRua();
+				"Rua: "+this.endereco.getRua()+"\n";
 	}
 	
 	

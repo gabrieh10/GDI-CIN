@@ -127,16 +127,19 @@ public class RepositorioIngrediente {
 				E.printStackTrace();
 			}
 		}
-		public void salvarFoto(Ingrediente k){
+		public String salvarFoto(Ingrediente k){
+			String aux="C:\\Users\\Otávio Vera Cruz\\Pictures"+k.getNome()+".jpg";
 			try{			     
-			 FileOutputStream fos = new FileOutputStream("E:/Pictures/"+k.getNome()+".jpg");
+			 FileOutputStream fos = new FileOutputStream(aux);
 		     fos.write(k.getFoto());
 		     fos.flush();
 		     fos.close(); 
+		     
 		 }
 		 catch(Exception e){
 		    e.printStackTrace();
 		}
+			return aux;
 	}	
 		
 }

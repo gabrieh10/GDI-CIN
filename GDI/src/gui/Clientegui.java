@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import teste.Cliente;
 import teste.Connect;
+import teste.Endereco;
 import teste.RepositorioCliente;
 
 import javax.swing.JLabel;
@@ -18,6 +19,9 @@ import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
 
 public class Clientegui extends JFrame {
 
@@ -32,11 +36,15 @@ public class Clientegui extends JFrame {
 	private JTextField textFieldCepCli;
 	private JTextField textFieldNumCli;
 	private JTextField textFieldRuaCli;
-	private JTextPane textPaneResul;
+	private JTextField textFieldTelCli;
+	private JTextArea textArea;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -159,7 +167,34 @@ public class Clientegui extends JFrame {
 		contentPane.add(textFieldRuaCli);
 		
 		JButton btnNewButton = new JButton("Inserir");
-		btnNewButton.setBounds(169, 369, 89, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nome=textFieldNomeCli.getText();
+				String cpf=textFieldCpfCli.getText();
+				String sexo=textFieldSexoCli.getText();
+				String data=textFieldDataNascCli.getText();
+				String[]telefone={textFieldTelCli.getText()};
+				String peso=textFieldPesoCli.getText();
+				double pesoCli=Double.parseDouble(peso);
+				
+				String cep=textFieldCepCli.getText();
+				String num=textFieldNumCli.getText();
+				int numero=Integer.parseInt(num);
+				String rua=textFieldRuaCli.getText();
+				Connect.init();	
+				RepositorioCliente rep=new RepositorioCliente(Connect.getConnection());
+				try {
+					rep.inserirCliente(cpf, nome, sexo, data, telefone, pesoCli, new Endereco(cep,numero,rua));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				finally{ 
+					Connect.close();
+					}
+			}
+		});
+		btnNewButton.setBounds(141, 378, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
@@ -172,8 +207,9 @@ public class Clientegui extends JFrame {
 				
 				try {
 					Cliente aux=rep.buscaNome(nome);
-					if(aux == null) textPaneResul.setText("Não há respostas");
-					else textPaneResul.setText(aux.getNome());
+					
+					if(aux == null) textArea.setText("Cliente não Cadastrado!");
+					else textArea.setText(aux.toString());
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					System.out.println("Merda");
@@ -184,11 +220,37 @@ public class Clientegui extends JFrame {
 					}
 			}
 		});
-		btnPesquisar.setBounds(307, 369, 89, 23);
+		btnPesquisar.setBounds(279, 378, 89, 23);
 		contentPane.add(btnPesquisar);
 		
-		textPaneResul = new JTextPane();
-		textPaneResul.setBounds(308, 161, 208, 188);
-		contentPane.add(textPaneResul);
+		textFieldTelCli = new JTextField();
+		textFieldTelCli.setColumns(10);
+		textFieldTelCli.setBounds(50, 334, 208, 20);
+		contentPane.add(textFieldTelCli);
+		
+		JLabel lblTelefone = new JLabel("Telefone:");
+		lblTelefone.setBounds(10, 337, 46, 14);
+		contentPane.add(lblTelefone);
+		
+		textArea = new JTextArea();
+		textArea.setBounds(268, 172, 248, 181);
+		contentPane.add(textArea);
+		
+		JButton btnRelatorio = new JButton("Relat\u00F3rio");
+		btnRelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Connect.init();
+				RepositorioCliente rep=new RepositorioCliente(Connect.getConnection());
+				try {
+					textArea.setText(rep.relatorioCliente().toString());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		btnRelatorio.setBounds(399, 378, 89, 23);
+		contentPane.add(btnRelatorio);
 	}
 }
