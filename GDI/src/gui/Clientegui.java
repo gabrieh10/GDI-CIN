@@ -62,7 +62,7 @@ public class Clientegui extends JFrame {
 	 */
 	public Clientegui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 555, 466);
+		setBounds(100, 100, 580, 519);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -194,25 +194,27 @@ public class Clientegui extends JFrame {
 					}
 			}
 		});
-		btnNewButton.setBounds(141, 378, 89, 23);
+		btnNewButton.setBounds(49, 378, 89, 23);
 		contentPane.add(btnNewButton);
 		
-		JButton btnPesquisar = new JButton("Pesquisar");
+		JButton btnPesquisar = new JButton("Pesquisar Nome");
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nome=textFieldNomeBus.getText().toString();
-				//String cpf=textFieldNomeBus.getText().toString();
+				
 				Connect.init();	
 				RepositorioCliente rep=new RepositorioCliente(Connect.getConnection());
 				
 				try {
-					Cliente aux=rep.buscaNome(nome);
 					
-					if(aux == null) textArea.setText("Cliente não Cadastrado!");
+					Cliente aux=rep.buscaNome(nome);				
+				    if(aux == null) textArea.setText("Cliente não Cadastrado!");					
 					else textArea.setText(aux.toString());
+					
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
-					System.out.println("Merda");
+					
 					e1.printStackTrace();
 				}
 				finally{ 
@@ -220,7 +222,7 @@ public class Clientegui extends JFrame {
 					}
 			}
 		});
-		btnPesquisar.setBounds(279, 378, 89, 23);
+		btnPesquisar.setBounds(266, 378, 144, 23);
 		contentPane.add(btnPesquisar);
 		
 		textFieldTelCli = new JTextField();
@@ -250,7 +252,36 @@ public class Clientegui extends JFrame {
 				
 			}
 		});
-		btnRelatorio.setBounds(399, 378, 89, 23);
+		btnRelatorio.setBounds(268, 410, 89, 23);
 		contentPane.add(btnRelatorio);
+		
+		JButton btnPesquisarPorCpf = new JButton("Pesquisar  Cpf");
+		btnPesquisarPorCpf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String cpf=textFieldNomeBus.getText().toString();
+				Connect.init();	
+				RepositorioCliente rep=new RepositorioCliente(Connect.getConnection());
+				
+				try {
+					
+					Cliente aux=rep.buscaCPF(cpf);				
+				    if(aux == null) textArea.setText("Cliente não Cadastrado!");					
+					else textArea.setText(aux.toString());
+					
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					
+					e1.printStackTrace();
+				}
+				finally{ 
+					Connect.close();
+					}
+		
+				
+			}
+		});
+		btnPesquisarPorCpf.setBounds(431, 378, 133, 23);
+		contentPane.add(btnPesquisarPorCpf);
 	}
 }

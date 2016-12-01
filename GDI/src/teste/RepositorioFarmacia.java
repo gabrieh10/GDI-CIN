@@ -92,7 +92,7 @@ public class RepositorioFarmacia {
 
 		
 //falta completar
-		public void inserirFarmacia(int id, String nome, String telefone, Endereco endereco){
+		public void inserirFarmacia(int id, String nome, String telefone, Endereco endereco)throws SQLException{
 			try{
 				String sql = "insert into tb_farmacia values(tp_farmacia(?, ?, tp_telefone(?), tp_endereco(?,?,?),tp_nt_funcionarios()))";
 				PreparedStatement ps = con.prepareStatement(sql);
@@ -111,7 +111,7 @@ public class RepositorioFarmacia {
 			
 	}
 	
-		public void removerFarmacia(int id){
+		public void removerFarmacia(int id)throws SQLException{
 			try{
 				String sql = "delete from tb_farmacia f where f.id = ?";
 				PreparedStatement ps = con.prepareStatement(sql);

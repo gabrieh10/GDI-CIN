@@ -1,6 +1,8 @@
 package teste;
 
 public class Endereco {
+	
+
 	private String cep;
 	private int numero;
 	private String rua;
@@ -37,5 +39,13 @@ public class Endereco {
 		this.rua = rua;
 	}
 
+	@Override
+	public String toString() {
+		return "Endereco:"+"\n"+
+				"CEP:"+ cep +"\n"+  
+				"Número:" + numero + 
+				 "\n"+"Rua:" + rua;
+	}
+	
 }
 

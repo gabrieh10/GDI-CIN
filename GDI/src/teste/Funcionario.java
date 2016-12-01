@@ -38,4 +38,17 @@ public class Funcionario extends Pessoa {
 		this.supervisor = supervisor;
 	}
 
+	@Override
+	public String toString() {
+		
+		return "Funcionario:"+"\n"+"Nome: "+this.getNome()+"\n"+
+				"CPF: "+this.getCpf()+"\n"+"Sexo: "+this.getSexo()+"\n"+
+				"Data de Nascimento:"+this.getData_nascimento()+"\n"+
+				"Cargo: "+cargo +"\n"+
+				"salario: " + salario + "\n"+
+				"supervisor: " + supervisor + "\n";
+	}
+	
+	
+
 }

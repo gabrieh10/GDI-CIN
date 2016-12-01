@@ -6,11 +6,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import teste.Connect;
+import teste.Endereco;
+import teste.Farmacia;
+import teste.RepositorioFarmacia;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
 
 public class Farmaciagui extends JFrame {
 
@@ -21,6 +29,9 @@ public class Farmaciagui extends JFrame {
 	private JTextField textField_6;
 	private JTextField textFieldCpfFuncFarm;
 	private JTextField textFieldIdFarmFun;
+	private JTextField textField;
+	private JTextField textFieldRuaFarm;
+	private JTextPane textPaneFarm;
 
 	/**
 	 * Launch the application.
@@ -43,7 +54,7 @@ public class Farmaciagui extends JFrame {
 	 */
 	public Farmaciagui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 634, 407);
+		setBounds(100, 100, 634, 496);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -52,7 +63,7 @@ public class Farmaciagui extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		panel.setBounds(0, 0, 608, 414);
+		panel.setBounds(0, 0, 608, 447);
 		contentPane.add(panel);
 		
 		JLabel label = new JLabel("Nome:");
@@ -82,9 +93,9 @@ public class Farmaciagui extends JFrame {
 		textFieldTelefone.setBounds(66, 179, 213, 20);
 		panel.add(textFieldTelefone);
 		
-		JLabel label_6 = new JLabel("Endere\u00E7o:");
-		label_6.setBounds(10, 210, 53, 14);
-		panel.add(label_6);
+		JLabel lblCep = new JLabel("CEP:");
+		lblCep.setBounds(10, 210, 53, 14);
+		panel.add(lblCep);
 		
 		textField_6 = new JTextField();
 		textField_6.setColumns(10);
@@ -94,9 +105,24 @@ public class Farmaciagui extends JFrame {
 		JButton buttonBuscarFarm = new JButton("Pesquisar");
 		buttonBuscarFarm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String idText=textFieldId.getText();
+				int id=Integer.parseInt(idText);
+				Connect.init();
+				RepositorioFarmacia rep=new RepositorioFarmacia(Connect.getConnection());
+				try {
+					Farmacia farm=rep.buscaID(id);
+					if(farm==null)textPaneFarm.setText("Farmácia não encontrada!");
+					else textPaneFarm.setText(farm.toString());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				finally{
+					Connect.close();
+				}
 			}
 		});
-		buttonBuscarFarm.setBounds(204, 298, 89, 23);
+		buttonBuscarFarm.setBounds(148, 365, 89, 23);
 		panel.add(buttonBuscarFarm);
 		
 		JLabel label_7 = new JLabel("Preecha os dados:");
@@ -110,11 +136,33 @@ public class Farmaciagui extends JFrame {
 		JButton btnInserirFarm = new JButton("Inserir");
 		btnInserirFarm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String nome=textFieldNome.getText();
+				String idText=textFieldId.getText();
+				int id=Integer.parseInt(idText);
+				String telefone=textFieldTelefone.getText();
+				String rua=textFieldRuaFarm.getText();
+				String cep=textField_6.getText();
+				String num=textField.getText();
+				int numero=Integer.parseInt(num);
+				Endereco end=new Endereco(cep,numero,rua);
+								
+				Connect.init();	
+				RepositorioFarmacia rep=new RepositorioFarmacia(Connect.getConnection());
+				try {
+					rep.inserirFarmacia(id, nome, telefone, end);
+					textPaneFarm.setText("Farmácia inserida com sucesso!");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
+				finally{
+					Connect.close();
+				}				
 				
 			}
 		});
-		btnInserirFarm.setBounds(66, 298, 89, 23);
+		btnInserirFarm.setBounds(10, 365, 89, 23);
 		panel.add(btnInserirFarm);
 		
 		textFieldCpfFuncFarm = new JTextField();
@@ -138,18 +186,94 @@ public class Farmaciagui extends JFrame {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String idText=textFieldId.getText();
+				int id=Integer.parseInt(idText);
+				Connect.init();
+				RepositorioFarmacia rep=new RepositorioFarmacia(Connect.getConnection());
+				try {
+					rep.removerFarmacia(id);
+					textPaneFarm.setText("Removido com sucesso!");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				finally{
+					Connect.close();
+				}				
 			}
 		});
-		btnRemover.setBounds(327, 298, 89, 23);
+		btnRemover.setBounds(271, 365, 89, 23);
 		panel.add(btnRemover);
 		
 		JButton btnAddFuncionro = new JButton("Add Funcion\u00E1ro");
 		btnAddFuncionro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String cpf=textFieldCpfFuncFarm.getText();
+				String idText=textFieldId.getText();
+				int id=Integer.parseInt(idText);
+				Connect.init();								 
+				RepositorioFarmacia rep=new RepositorioFarmacia(Connect.getConnection());
+				
+				try {
+					rep.inserirFuncionarios(cpf, id);
+					textPaneFarm.setText("Funcionário inserido com sucesso!");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				finally{
+					Connect.close();
+				}				
 			}
 		});
-		btnAddFuncionro.setBounds(385, 206, 107, 23);
+		btnAddFuncionro.setBounds(385, 182, 107, 23);
 		panel.add(btnAddFuncionro);
+		
+		JLabel lblNmero = new JLabel("N\u00FAmero:");
+		lblNmero.setBounds(10, 242, 53, 14);
+		panel.add(lblNmero);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(66, 242, 213, 20);
+		panel.add(textField);
+		
+		JLabel lblRua = new JLabel("Rua:");
+		lblRua.setBounds(10, 273, 53, 14);
+		panel.add(lblRua);
+		
+		textFieldRuaFarm = new JTextField();
+		textFieldRuaFarm.setColumns(10);
+		textFieldRuaFarm.setBounds(66, 273, 213, 20);
+		panel.add(textFieldRuaFarm);
+		
+		textPaneFarm = new JTextPane();
+		textPaneFarm.setBounds(385, 242, 213, 193);
+		panel.add(textPaneFarm);
+		
+		JButton buttonBuscarNome = new JButton("Pesquisar por Nome");
+		buttonBuscarNome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nome=textFieldNome.getText();
+				Connect.init();
+				RepositorioFarmacia rep=new RepositorioFarmacia(Connect.getConnection());
+				try {
+					
+					Farmacia farm=rep.buscaNome(nome);
+					if(farm==null)textPaneFarm.setText("Farmácia não encontrada!");
+					else textPaneFarm.setText(farm.toString());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				finally{
+					Connect.close();
+				}	
+			}
+		
+		});
+		buttonBuscarNome.setBounds(148, 412, 143, 23);
+		panel.add(buttonBuscarNome);
 	}
-
 }

@@ -165,7 +165,7 @@ public class RepositorioFuncionario {
 				
 			}	
 		
-		public void removerFuncionario(String cpf){
+		public void removerFuncionario(String cpf)throws SQLException{
 			try{
 				String sql = "delete from tb_funcionario f where f.cpf = ?";
 				PreparedStatement ps = con.prepareStatement(sql);

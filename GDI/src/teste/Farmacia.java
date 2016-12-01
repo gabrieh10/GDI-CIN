@@ -1,5 +1,7 @@
 package teste;
 
+import java.util.Arrays;
+
 public class Farmacia {
 	private String nome;
 	private int id;
@@ -45,8 +47,22 @@ public class Farmacia {
 	public void setFuncionarios(String[] funcionarios) {
 		this.funcionarios = funcionarios;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		String func="";
+		
+		for(int i=0;i<this.getFuncionarios().length-1;i++){
+			if(this.getFuncionarios()[i]!=null)func+=this.getFuncionarios()[i].toString()+"\n";
+		}
+		
+		return "Farmacia "+"\n"
+				+ "Nome:" + nome + "\n"+
+				"ID:" + id +"\n"+
+				"Telefone:"+ telefone  +"\n"
+				+this.getEndereco().toString()+"\n"
+				+ " Funcionários da Farmácia" + func+"\n" ;
+	}
 	
 	
 
