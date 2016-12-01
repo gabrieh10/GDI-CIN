@@ -67,42 +67,42 @@ public class Farmaciagui extends JFrame {
 		contentPane.add(panel);
 		
 		JLabel label = new JLabel("Nome:");
-		label.setBounds(10, 117, 36, 14);
+		label.setBounds(20, 78, 36, 14);
 		panel.add(label);
 		
 		textFieldNome = new JTextField();
 		textFieldNome.setColumns(10);
-		textFieldNome.setBounds(66, 117, 213, 20);
+		textFieldNome.setBounds(76, 78, 213, 20);
 		panel.add(textFieldNome);
 		
 		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(10, 148, 36, 14);
+		lblId.setBounds(20, 109, 36, 14);
 		panel.add(lblId);
 		
 		textFieldId = new JTextField();
 		textFieldId.setColumns(10);
-		textFieldId.setBounds(66, 148, 213, 20);
+		textFieldId.setBounds(76, 109, 213, 20);
 		panel.add(textFieldId);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setBounds(10, 182, 46, 14);
+		lblTelefone.setBounds(20, 143, 46, 14);
 		panel.add(lblTelefone);
 		
 		textFieldTelefone = new JTextField();
 		textFieldTelefone.setColumns(10);
-		textFieldTelefone.setBounds(66, 179, 213, 20);
+		textFieldTelefone.setBounds(76, 140, 213, 20);
 		panel.add(textFieldTelefone);
 		
 		JLabel lblCep = new JLabel("CEP:");
-		lblCep.setBounds(10, 210, 53, 14);
+		lblCep.setBounds(20, 171, 53, 14);
 		panel.add(lblCep);
 		
 		textField_6 = new JTextField();
 		textField_6.setColumns(10);
-		textField_6.setBounds(66, 210, 213, 20);
+		textField_6.setBounds(76, 171, 213, 20);
 		panel.add(textField_6);
 		
-		JButton buttonBuscarFarm = new JButton("Pesquisar");
+		JButton buttonBuscarFarm = new JButton("Pesquisar por Id");
 		buttonBuscarFarm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String idText=textFieldId.getText();
@@ -122,15 +122,15 @@ public class Farmaciagui extends JFrame {
 				}
 			}
 		});
-		buttonBuscarFarm.setBounds(148, 365, 89, 23);
+		buttonBuscarFarm.setBounds(20, 363, 116, 23);
 		panel.add(buttonBuscarFarm);
 		
 		JLabel label_7 = new JLabel("Preecha os dados:");
-		label_7.setBounds(10, 66, 127, 14);
+		label_7.setBounds(20, 27, 127, 14);
 		panel.add(label_7);
 		
 		JLabel lblPesquisar = new JLabel("Adicionar Funcion\u00E1rio:");
-		lblPesquisar.setBounds(329, 66, 116, 14);
+		lblPesquisar.setBounds(339, 27, 116, 14);
 		panel.add(lblPesquisar);
 		
 		JButton btnInserirFarm = new JButton("Inserir");
@@ -162,25 +162,25 @@ public class Farmaciagui extends JFrame {
 				
 			}
 		});
-		btnInserirFarm.setBounds(10, 365, 89, 23);
+		btnInserirFarm.setBounds(20, 308, 89, 23);
 		panel.add(btnInserirFarm);
 		
 		textFieldCpfFuncFarm = new JTextField();
 		textFieldCpfFuncFarm.setColumns(10);
-		textFieldCpfFuncFarm.setBounds(385, 117, 213, 20);
+		textFieldCpfFuncFarm.setBounds(395, 78, 213, 20);
 		panel.add(textFieldCpfFuncFarm);
 		
 		JLabel lblNewLabel = new JLabel("Cpf:");
-		lblNewLabel.setBounds(329, 117, 46, 14);
+		lblNewLabel.setBounds(339, 78, 46, 14);
 		panel.add(lblNewLabel);
 		
 		JLabel label_1 = new JLabel("ID:");
-		label_1.setBounds(329, 148, 36, 14);
+		label_1.setBounds(339, 109, 36, 14);
 		panel.add(label_1);
 		
 		textFieldIdFarmFun = new JTextField();
 		textFieldIdFarmFun.setColumns(10);
-		textFieldIdFarmFun.setBounds(385, 148, 213, 20);
+		textFieldIdFarmFun.setBounds(395, 109, 213, 20);
 		panel.add(textFieldIdFarmFun);
 		
 		JButton btnRemover = new JButton("Remover");
@@ -202,7 +202,7 @@ public class Farmaciagui extends JFrame {
 				}				
 			}
 		});
-		btnRemover.setBounds(271, 365, 89, 23);
+		btnRemover.setBounds(145, 308, 89, 23);
 		panel.add(btnRemover);
 		
 		JButton btnAddFuncionro = new JButton("Add Funcion\u00E1ro");
@@ -227,29 +227,29 @@ public class Farmaciagui extends JFrame {
 				}				
 			}
 		});
-		btnAddFuncionro.setBounds(385, 182, 107, 23);
+		btnAddFuncionro.setBounds(395, 143, 107, 23);
 		panel.add(btnAddFuncionro);
 		
 		JLabel lblNmero = new JLabel("N\u00FAmero:");
-		lblNmero.setBounds(10, 242, 53, 14);
+		lblNmero.setBounds(20, 203, 53, 14);
 		panel.add(lblNmero);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(66, 242, 213, 20);
+		textField.setBounds(76, 203, 213, 20);
 		panel.add(textField);
 		
 		JLabel lblRua = new JLabel("Rua:");
-		lblRua.setBounds(10, 273, 53, 14);
+		lblRua.setBounds(20, 234, 53, 14);
 		panel.add(lblRua);
 		
 		textFieldRuaFarm = new JTextField();
 		textFieldRuaFarm.setColumns(10);
-		textFieldRuaFarm.setBounds(66, 273, 213, 20);
+		textFieldRuaFarm.setBounds(76, 234, 213, 20);
 		panel.add(textFieldRuaFarm);
 		
 		textPaneFarm = new JTextPane();
-		textPaneFarm.setBounds(385, 242, 213, 193);
+		textPaneFarm.setBounds(312, 182, 296, 265);
 		panel.add(textPaneFarm);
 		
 		JButton buttonBuscarNome = new JButton("Pesquisar por Nome");
@@ -273,7 +273,7 @@ public class Farmaciagui extends JFrame {
 			}
 		
 		});
-		buttonBuscarNome.setBounds(148, 412, 143, 23);
+		buttonBuscarNome.setBounds(146, 363, 143, 23);
 		panel.add(buttonBuscarNome);
 	}
 }

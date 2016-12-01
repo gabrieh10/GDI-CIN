@@ -54,6 +54,7 @@ public class Farmacia {
 		
 		for(int i=0;i<this.getFuncionarios().length-1;i++){
 			if(this.getFuncionarios()[i]!=null)func+=this.getFuncionarios()[i].toString()+"\n";
+			else func="Não existem funcionários!";
 		}
 		
 		return "Farmacia "+"\n"
@@ -61,7 +62,7 @@ public class Farmacia {
 				"ID:" + id +"\n"+
 				"Telefone:"+ telefone  +"\n"
 				+this.getEndereco().toString()+"\n"
-				+ " Funcionários da Farmácia" + func+"\n" ;
+				+ "Funcionários da Farmácia: " + func ;
 	}
 	
 	

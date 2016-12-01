@@ -6,18 +6,25 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import teste.Connect;
+import teste.Laboratorio;
+import teste.RepositorioLaboratorio;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
 
 public class Laboratoriogui extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldID;
 	private JTextField textField;
-
+	private JTextPane textPaneLab;
 	/**
 	 * Launch the application.
 	 */
@@ -64,20 +71,104 @@ public class Laboratoriogui extends JFrame {
 		contentPane.add(textField);
 		
 		JButton btnInserir = new JButton("Inserir");
-		btnInserir.setBounds(156, 277, 89, 23);
+		btnInserir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Connect.init();
+				
+				int id = Integer.parseInt(textFieldID.getText());
+				String nome = textField.getText();
+				
+				RepositorioLaboratorio repo = new RepositorioLaboratorio(Connect.getConnection());
+				try {
+					repo.inserirLaboratorio(id,nome);
+					textPaneLab.setText("Laboratório inserido com sucesso!");
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				finally {
+					Connect.close();
+				}
+				
+			}
+		});
+		btnInserir.setBounds(91, 277, 89, 23);
 		contentPane.add(btnInserir);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Connect.init();
+				
+				int id = Integer.parseInt(textFieldID.getText());
+				
+				RepositorioLaboratorio repo = new RepositorioLaboratorio(Connect.getConnection());
+				try {
+					Laboratorio lab = repo.buscaID(id);
+					if(lab == null) textPaneLab.setText("Laboratorio não encontrado.");  
+					else textPaneLab.setText(lab.toString());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				finally {
+					Connect.close();
+				}
+				
+				
 			}
 		});
-		btnPesquisar.setBounds(286, 277, 89, 23);
+		btnPesquisar.setBounds(216, 277, 89, 23);
 		contentPane.add(btnPesquisar);
 		
 		JLabel label = new JLabel("Preecha os dados:");
 		label.setBounds(118, 56, 127, 14);
 		contentPane.add(label);
+		
+		textPaneLab = new JTextPane();
+		textPaneLab.setBounds(376, 120, 172, 180);
+		contentPane.add(textPaneLab);
+		
+		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int id=Integer.parseInt(textFieldID.getText());
+				
+				Connect.init();
+				RepositorioLaboratorio rep=new RepositorioLaboratorio(Connect.getConnection());
+				try {
+					rep.removerLaboratorio(id);;
+					textPaneLab.setText("Laboratório removido com sucesso!");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+				
+			}
+		});
+		btnRemover.setBounds(91, 323, 89, 23);
+		contentPane.add(btnRemover);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nome=textField.getText();
+				int id=Integer.parseInt(textFieldID.getText());
+				
+				Connect.init();
+				RepositorioLaboratorio rep=new RepositorioLaboratorio(Connect.getConnection());
+				try {
+					rep.atualizarLaboratorio(id, nome);
+					textPaneLab.setText("Laboratório atualizado com sucesso!");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}			
+				
+				
+			}
+		});
+		btnAtualizar.setBounds(216, 323, 89, 23);
+		contentPane.add(btnAtualizar);
 	}
-
 }

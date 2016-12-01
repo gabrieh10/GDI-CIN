@@ -71,7 +71,7 @@ public class RepositorioLaboratorio {
 			}
 		
 
-		public void removerLaboratorio(int id){
+		public void removerLaboratorio(int id) throws SQLException{
 			try{
 				String sql = "delete from tb_laboratorio l where l.id = ?";
 				PreparedStatement ps = con.prepareStatement(sql);
